@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\UserRepository;
+use App\Tools\Security;
 
 class AuthController extends Controller
 {
@@ -38,24 +39,29 @@ class AuthController extends Controller
 
         if (isset($_POST['loginUser'])) {
 
-            $userRepository = new UserRepository();
-
-            $user = $userRepository->findOneByEmail($_POST['email']);
-
-            if ($user && $user->verifyPassword($_POST['password'])) {
-                // Regénère l'id session pour éviter la fixation de session
-                session_regenerate_id(true);
-                $_SESSION['user'] = [
-                    'id' => $user->getId(),
-                    'email' => $user->getEmail(),
-                    'first_name' => $user->getFirstName(),
-                    'last_name' => $user->getLastName(),
-                    'role' => $user->getRole()
-                ];
-                header('location: index.php');
-                exit;
+            // Vérifie que le formulaire vient bien de notre site
+            if (!Security::checkCsrfToken($_POST['csrf_token'] ?? null)) {
+                $errors[] = 'Le formulaire a expiré, merci de réessayer';
             } else {
-                $errors[] = 'Email ou mot de passe incorrect';
+                $userRepository = new UserRepository();
+
+                $user = $userRepository->findOneByEmail($_POST['email'] ?? '');
+
+                if ($user && $user->verifyPassword($_POST['password'] ?? '')) {
+                    // Regénère l'id session pour éviter la fixation de session
+                    session_regenerate_id(true);
+                    $_SESSION['user'] = [
+                        'id' => $user->getId(),
+                        'email' => $user->getEmail(),
+                        'first_name' => $user->getFirstName(),
+                        'last_name' => $user->getLastName(),
+                        'role' => $user->getRole()
+                    ];
+                    header('location: index.php');
+                    exit;
+                } else {
+                    $errors[] = 'Email ou mot de passe incorrect';
+                }
             }
         }
 
