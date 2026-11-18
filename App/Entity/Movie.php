@@ -121,12 +121,12 @@ class Movie extends Entity
         return $this;
     }
 
-    public function getImagePath(): ?string
+    public function getImagePath(): string
     {
         if ($this->getImageName()) {
             return MOVIES_IMAGES_FOLDER . $this->getImageName();
         } else {
-            return ASSETS_IMAGES_FOLDER . 'default-movie.jpg';
+            return ASSETS_IMAGES_FOLDER . 'default-movie.png';
         }
     }
 }
