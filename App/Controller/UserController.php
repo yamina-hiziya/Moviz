@@ -44,9 +44,16 @@ class UserController extends Controller
                 $user->hydrate($_POST);
                 $user->setRole(ROLE_USER);
                 $errors = $user->validate();
+
+                $userRepository = new UserRepository();
+
+                // Vérifie que l'email n'est pas déjà utilisé par un autre compte
+                if (!isset($errors['email']) && $userRepository->findOneByEmail($user->getEmail())) {
+                    $errors['email'] = 'Un compte existe déjà avec cet email';
+                }
+
                 if (empty($errors)) {
                     //save en bdd
-                    $userRepository = new UserRepository();
                     $userRepository->persist($user);
                     header('location: index.php?controller=auth&action=login');
                     exit;
