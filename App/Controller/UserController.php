@@ -42,13 +42,14 @@ class UserController extends Controller
             if (isset($_POST['saveUser'])) {
                 // gérer l'inscription utilisateur
                 $user->hydrate($_POST);
-                $user->setRole('ROLE_USER');
+                $user->setRole(ROLE_USER);
                 $errors = $user->validate();
                 if (empty($errors)) {
                     //save en bdd
                     $userRepository = new UserRepository();
                     $userRepository->persist($user);
                     header('location: index.php?controller=auth&action=login');
+                    exit;
                 }
             }
 
