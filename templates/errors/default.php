@@ -6,7 +6,7 @@
 
 <?php if ($error) { ?>
     <div class="alert alert-danger">
-        <?= $error; ?>
+        <?= htmlspecialchars($error); ?>
     </div>
 <?php } ?>
 
