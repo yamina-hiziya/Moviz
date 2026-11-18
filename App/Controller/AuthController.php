@@ -53,6 +53,7 @@ class AuthController extends Controller
                     'role' => $user->getRole()
                 ];
                 header('location: index.php');
+                exit;
             } else {
                 $errors[] = 'Email ou mot de passe incorrect';
             }
@@ -73,5 +74,6 @@ class AuthController extends Controller
         //Supprime les données du tableau $_SESSION
         unset($_SESSION);
         header('location: index.php?controller=auth&action=login');
+        exit;
     }
 }
