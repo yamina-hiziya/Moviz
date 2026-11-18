@@ -106,6 +106,8 @@ class User extends Entity
         }
         if (empty($this->getPassword())) {
             $errors['password'] = 'Le champ mot de passe ne doit pas être vide';
+        } else if (mb_strlen($this->getPassword()) < 8) {
+            $errors['password'] = 'Le mot de passe doit contenir au moins 8 caractères';
         }
         return $errors;
     }
