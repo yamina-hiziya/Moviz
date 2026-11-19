@@ -36,6 +36,27 @@ class MovieRepository extends Repository
     }
 
     /*
+        Les derniers films ajoutés (les plus grands id en premier)
+    */
+    public function findLatest(int $limit): array
+    {
+        $query = $this->pdo->prepare("SELECT * FROM movie ORDER BY id DESC LIMIT :limit");
+        // PARAM_INT est obligatoire ici : avec PARAM_STR, MySQL recevrait LIMIT '6' et refuserait la requête
+        $query->bindValue(':limit', $limit, $this->pdo::PARAM_INT);
+        $query->execute();
+        $movies = $query->fetchAll($this->pdo::FETCH_ASSOC);
+
+        $moviesArray = [];
+
+        if ($movies) {
+            foreach ($movies as $movie) {
+                $moviesArray[] = Movie::createAndHydrate($movie);
+            }
+        }
+        return $moviesArray;
+    }
+
+    /*
         Vérifie si un film TMDB a déjà été importé
     */
     public function existsByTmdbId(int $tmdb_id): bool
