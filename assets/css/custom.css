@@ -1,40 +1,86 @@
-/* Rating */
-*{
-    margin: 0;
-    padding: 0;
+/*
+    Styles personnalisés de Mooviz
+    Les couleurs viennent des variables définies dans override_bootstrap.css
+*/
+
+/* ---------- Logo de l'en-tête ---------- */
+/* Plus petit sur téléphone pour laisser de la place au menu */
+@media (max-width: 767px) {
+    header img {
+        height: 60px;
+    }
 }
+
+/* ---------- Cartes de films ---------- */
+.card {
+    border: none;
+    box-shadow: 0 2px 8px rgba(48, 59, 67, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(48, 59, 67, 0.15);
+}
+
+.card-title {
+    font-family: var(--mooviz-font-title);
+}
+
+/* ---------- Formulaires ---------- */
+/* Contour doré quand on clique dans un champ */
+.form-control:focus {
+    border-color: var(--mooviz-gold);
+    box-shadow: 0 0 0 0.2rem rgba(176, 134, 56, 0.25);
+}
+
+/* ---------- Notation par étoiles (formulaire d'avis) ---------- */
+/*
+    Les étoiles sont écrites de 5 à 1 dans le HTML.
+    Avec float: right, elles s'affichent de 1 à 5.
+    Le sélecteur ~ (« les éléments suivants ») colore alors l'étoile choisie
+    et toutes celles qui sont à sa gauche.
+*/
 .rate {
     float: left;
     height: 46px;
-    padding: 0 10px;
+    padding: 0 10px 0 0;
 }
 
 .rate input[type="radio"] {
     display: none;
 }
+
 .rate:not(:checked) > label {
-    float:right;
-    width:1em;
-    overflow:hidden;
-    white-space:nowrap;
-    cursor:pointer;
-    font-size:30px;
-    color:#ccc;
+    float: right;
+    width: 1em;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 30px;
+    color: #D5D8DB;
 }
+
 .rate:not(:checked) > label:before {
     content: '★ ';
 }
+
+/* Étoile choisie et celles à sa gauche */
 .rate > input:checked ~ label {
-    color: #ffc700;    
+    color: var(--mooviz-gold);
 }
+
+/* Survol : prévisualise la note */
 .rate.enabled:not(:checked) > label:hover,
 .rate.enabled:not(:checked) > label:hover ~ label {
-    color: #deb217;  
+    color: var(--mooviz-gold);
 }
+
+/* Survol alors qu'une note est déjà choisie : or plus foncé */
 .rate.enabled > input:checked + label:hover,
 .rate.enabled > input:checked + label:hover ~ label,
 .rate.enabled > input:checked ~ label:hover,
 .rate.enabled > input:checked ~ label:hover ~ label,
 .rate.enabled > label:hover ~ input:checked ~ label {
-    color: #c59b08;
+    color: var(--mooviz-gold-dark);
 }
