@@ -10,12 +10,10 @@ class Controller
             if (isset($_GET['controller'])) {
                 switch ($_GET['controller']) {
                     case 'page':
-                        //charger controleur page
                         $controller = new PageController();
                         $controller->route();
                         break;
                     case 'auth':
-                        //charger controleur auth
                         $controller = new AuthController();
                         $controller->route();
                         break;
@@ -25,6 +23,10 @@ class Controller
                         break;
                     case 'movie':
                         $controller = new MovieController();
+                        $controller->route();
+                        break;
+                    case 'admin':
+                        $controller = new AdminController();
                         $controller->route();
                         break;
                     default:
