@@ -10,8 +10,9 @@ class Review extends Entity
     protected bool $approved = false;
     protected ?int $user_id = null;
     protected ?int $movie_id = null;
-    // Pas une colonne de la table review : récupéré par jointure avec la table user
+    // Pas des colonnes de la table review : récupérés par jointure avec les tables user et movie
     protected ?string $user_first_name = null;
+    protected ?string $movie_title = null;
 
     public function getId(): ?int
     {
@@ -93,6 +94,18 @@ class Review extends Entity
     public function setUserFirstName(?string $user_first_name): self
     {
         $this->user_first_name = $user_first_name;
+
+        return $this;
+    }
+
+    public function getMovieTitle(): ?string
+    {
+        return $this->movie_title;
+    }
+
+    public function setMovieTitle(?string $movie_title): self
+    {
+        $this->movie_title = $movie_title;
 
         return $this;
     }
