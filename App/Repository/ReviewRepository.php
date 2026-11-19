@@ -32,6 +32,31 @@ class ReviewRepository extends Repository
     }
 
     /*
+        Critiques en attente de validation (seulement celles qui ont un texte)
+        avec le prénom de l'auteur et le titre du film (double jointure)
+    */
+    public function findPending(): array
+    {
+        $query = $this->pdo->prepare("SELECT r.*, u.first_name AS user_first_name, m.title AS movie_title
+                                    FROM review r
+                                    INNER JOIN user u ON u.id = r.user_id
+                                    INNER JOIN movie m ON m.id = r.movie_id
+                                    WHERE r.approved = 0 AND r.review IS NOT NULL
+                                    ORDER BY r.id ASC");
+        $query->execute();
+        $reviews = $query->fetchAll($this->pdo::FETCH_ASSOC);
+
+        $reviewsArray = [];
+
+        if ($reviews) {
+            foreach ($reviews as $review) {
+                $reviewsArray[] = Review::createAndHydrate($review);
+            }
+        }
+        return $reviewsArray;
+    }
+
+    /*
         Moyenne et nombre de notes d'un film
         Toutes les notes comptent, même si la critique n'est pas encore validée
     */
@@ -83,6 +108,28 @@ class ReviewRepository extends Repository
         $query->bindValue(':approved', $review->isApproved() ? 1 : 0, $this->pdo::PARAM_INT);
         $query->bindValue(':user_id', $review->getUserId(), $this->pdo::PARAM_INT);
         $query->bindValue(':movie_id', $review->getMovieId(), $this->pdo::PARAM_INT);
+
+        return $query->execute();
+    }
+
+    /*
+        Valide une critique : elle devient visible sur la fiche du film
+    */
+    public function approve(int $id): bool
+    {
+        $query = $this->pdo->prepare("UPDATE review SET approved = 1 WHERE id = :id");
+        $query->bindValue(':id', $id, $this->pdo::PARAM_INT);
+
+        return $query->execute();
+    }
+
+    /*
+        Supprime une critique (et donc sa note)
+    */
+    public function delete(int $id): bool
+    {
+        $query = $this->pdo->prepare("DELETE FROM review WHERE id = :id");
+        $query->bindValue(':id', $id, $this->pdo::PARAM_INT);
 
         return $query->execute();
     }
