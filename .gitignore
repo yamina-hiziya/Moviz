@@ -1,6 +1,7 @@
 # Fichiers de configuration contenant des secrets (mots de passe, clé API)
 db_config.php
 tmdb_config.php
+uploads/movies/tmdb-*
 
 # Fichiers système macOS
 .DS_Store
