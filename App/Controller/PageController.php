@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Repository\BookRepository;
+use App\Repository\MovieRepository;
 
 class PageController extends Controller
 {
@@ -12,7 +12,6 @@ class PageController extends Controller
             if (isset($_GET['action'])) {
                 switch ($_GET['action']) {
                     case 'home':
-                        //charger controleur home
                         $this->home();
                         break;
                     default:
@@ -30,14 +29,21 @@ class PageController extends Controller
     }
 
     /*
-    Exemple d'appel depuis l'url
-        ?controller=page&action=home
+        Page d'accueil : présentation du site et derniers films ajoutés
+        Exemple d'appel depuis l'url : ?controller=page&action=home
     */
     protected function home()
     {
-        $this->render('page/home', [
-            'test' => 555,
-            'nom' => "John",
-        ]);
+        try {
+            $movieRepository = new MovieRepository();
+
+            $this->render('page/home', [
+                'latestMovies' => $movieRepository->findLatest(6),
+            ]);
+        } catch (\Exception $e) {
+            $this->render('errors/default', [
+                'error' => $e->getMessage()
+            ]);
+        }
     }
 }
