@@ -6,6 +6,25 @@ use App\Entity\Director;
 
 class DirectorRepository extends Repository
 {
+    /*
+        Tous les réalisateurs, triés par nom puis prénom (pour les cases à cocher du formulaire admin)
+    */
+    public function findAll(): array
+    {
+        $query = $this->pdo->prepare("SELECT * FROM director ORDER BY last_name ASC, first_name ASC");
+        $query->execute();
+        $directors = $query->fetchAll($this->pdo::FETCH_ASSOC);
+
+        $directorsArray = [];
+
+        if ($directors) {
+            foreach ($directors as $director) {
+                $directorsArray[] = Director::createAndHydrate($director);
+            }
+        }
+        return $directorsArray;
+    }
+
     public function findAllByMovieId(int $movie_id): array
     {
         $query = $this->pdo->prepare("SELECT d.* FROM director d
@@ -58,6 +77,17 @@ class DirectorRepository extends Repository
         $query = $this->pdo->prepare("INSERT INTO movie_director (movie_id, director_id) VALUES (:movie_id, :director_id)");
         $query->bindValue(':movie_id', $movie_id, $this->pdo::PARAM_INT);
         $query->bindValue(':director_id', $director_id, $this->pdo::PARAM_INT);
+
+        return $query->execute();
+    }
+
+    /*
+        Retire tous les réalisateurs d'un film (avant de remettre ceux cochés dans le formulaire)
+    */
+    public function unlinkAllFromMovie(int $movie_id): bool
+    {
+        $query = $this->pdo->prepare("DELETE FROM movie_director WHERE movie_id = :movie_id");
+        $query->bindValue(':movie_id', $movie_id, $this->pdo::PARAM_INT);
 
         return $query->execute();
     }
