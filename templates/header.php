@@ -32,29 +32,48 @@ use App\Tools\NavigationTools;
 <body>
 
     <div class="container">
-        <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-            <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-decoration-none">
-                <img src="/assets/images/logo-moviz.svg" alt="Mooviz" height="80">
-            </a>
+        <header class="border-bottom mb-4">
+            <nav class="navbar navbar-expand-lg py-3">
 
-            <ul class="nav nav-pills">
-                <li class="nav-item">
-                    <a href="/" class="nav-link px-3 <?= NavigationTools::addActiveClass('page', 'home') ?>">Accueil</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/index.php?controller=movie&action=list" class="nav-link px-3 <?= NavigationTools::addActiveClass('movie', 'list') ?>">Les films</a>
-                </li>
-            </ul>
+                <!-- Logo -->
+                <a href="/" class="navbar-brand me-lg-5">
+                    <img src="/assets/images/logo-moviz.svg" alt="Mooviz" height="80">
+                </a>
 
-            <div class="col-md-3 text-end">
-                <?php if (User::isLogged()) { ?>
-                    <span class="me-2 small">Bonjour <?= htmlspecialchars($_SESSION['user']['first_name']) ?></span>
-                    <a href="/index.php?controller=auth&action=logout" class="btn btn-outline-primary">Déconnexion</a>
-                <?php } else { ?>
-                    <a href="/index.php?controller=auth&action=login" class="btn btn-outline-primary me-2 <?= NavigationTools::addActiveClass('auth', 'login') ?>">Connexion</a>
-                    <a href="/index.php?controller=user&action=register" class="btn btn-primary <?= NavigationTools::addActiveClass('user', 'register') ?>">Inscription</a>
-                <?php } ?>
-            </div>
+                <!-- Bouton burger : visible seulement sur tablette et téléphone -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Ouvrir le menu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Contenu repliable : menu + boutons de compte -->
+                <div class="collapse navbar-collapse" id="mainNavbar">
+
+                    <ul class="navbar-nav nav-pills mx-lg-auto gap-lg-2 my-3 my-lg-0">
+                        <li class="nav-item">
+                            <a href="/" class="nav-link px-3 <?= NavigationTools::addActiveClass('page', 'home') ?>">Accueil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/index.php?controller=movie&action=list" class="nav-link px-3 <?= NavigationTools::addActiveClass('movie', 'list') ?>">Les films</a>
+                        </li>
+                        <?php if (User::isAdmin()) { ?>
+                            <li class="nav-item">
+                                <a href="/index.php?controller=admin&action=dashboard" class="nav-link px-3 <?= NavigationTools::addActiveClass('admin', 'dashboard') ?>">Administration</a>
+                            </li>
+                        <?php } ?>
+                    </ul>
+
+                    <div class="d-flex flex-wrap align-items-center gap-2">
+                        <?php if (User::isLogged()) { ?>
+                            <span class="small me-1">Bonjour <?= htmlspecialchars($_SESSION['user']['first_name']) ?></span>
+                            <a href="/index.php?controller=auth&action=logout" class="btn btn-outline-primary">Déconnexion</a>
+                        <?php } else { ?>
+                            <a href="/index.php?controller=auth&action=login" class="btn btn-outline-primary <?= NavigationTools::addActiveClass('auth', 'login') ?>">Connexion</a>
+                            <a href="/index.php?controller=user&action=register" class="btn btn-primary <?= NavigationTools::addActiveClass('user', 'register') ?>">Inscription</a>
+                        <?php } ?>
+                    </div>
+
+                </div>
+            </nav>
         </header>
 
         <main>
