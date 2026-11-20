@@ -7,13 +7,14 @@
  * @var array $ratingStats
  * @var App\Entity\Review|bool $userReview
  * @var array $errors
+ * @var int|null $views
  */
 ?>
 
 <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3 text-center"><?= htmlspecialchars($movie->getTitle()) ?></h1>
 
 <!-- Moyenne des notes -->
-<p class="text-center fs-5">
+<p class="text-center fs-5 mb-1">
     <?php if ($ratingStats['average'] === null) { ?>
         <span class="text-muted">Pas encore de note</span>
     <?php } else { ?>
@@ -24,6 +25,13 @@
         <span class="text-muted">(<?= $ratingStats['total'] ?> note<?= $ratingStats['total'] > 1 ? 's' : '' ?>)</span>
     <?php } ?>
 </p>
+
+<!-- Nombre de vues (MongoDB) : masqué si MongoDB est indisponible -->
+<?php if ($views !== null) { ?>
+    <p class="text-center text-muted small mb-4">
+        Fiche consultée <?= $views ?> fois
+    </p>
+<?php } ?>
 
 <div class="row">
     <div class="col">
