@@ -36,7 +36,9 @@ class Mongo
     public function getManager(): Manager
     {
         if (is_null($this->manager)) {
-            $this->manager = new Manager($this->uri);
+            // Délai maximal de 2 secondes pour joindre le serveur :
+            // si MongoDB est arrêté, le site ne reste pas bloqué (30 secondes par défaut)
+            $this->manager = new Manager($this->uri, ['serverSelectionTimeoutMS' => 2000]);
         }
         return $this->manager;
     }
