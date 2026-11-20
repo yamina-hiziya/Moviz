@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Repository\MovieRepository;
 use App\Repository\GenreRepository;
 use App\Repository\DirectorRepository;
+use App\Repository\MovieViewRepository;
 use App\Repository\ReviewRepository;
 use App\Tools\Security;
 
@@ -23,9 +24,6 @@ class MovieController extends Controller
                         break;
                     case 'list':
                         $this->list();
-                        break;
-                    case 'delete':
-                        // Appeler méthode delete()
                         break;
                     default:
                         throw new \Exception("Cette action n'existe pas : " . $_GET['action']);
@@ -98,6 +96,20 @@ class MovieController extends Controller
                 }
             }
 
+            // Statistiques de vues (MongoDB)
+            // On compte une vue seulement à l'affichage de la fiche (GET), pas à l'envoi d'un avis (POST)
+            // Si MongoDB est indisponible, la fiche s'affiche quand même, sans le compteur
+            $views = null;
+            try {
+                $movieViewRepository = new MovieViewRepository();
+                if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                    $movieViewRepository->addView($movie->getId());
+                }
+                $views = $movieViewRepository->getViews($movie->getId());
+            } catch (\Exception $e) {
+                $views = null;
+            }
+
             $genreRepository = new GenreRepository();
             $genres = $genreRepository->findAllByMovieId($movie->getId());
 
@@ -112,6 +124,7 @@ class MovieController extends Controller
                 'ratingStats' => $reviewRepository->getRatingStatsByMovieId($movie->getId()),
                 'userReview' => $userReview,
                 'errors' => $errors,
+                'views' => $views,
             ]);
         } catch (\Exception $e) {
             $this->render('errors/default', [
