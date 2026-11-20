@@ -11,7 +11,10 @@ $messages = [
 ];
 ?>
 
-<h1 class="mb-4">Administration</h1>
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+    <h1 class="mb-0">Administration</h1>
+    <a href="/index.php?controller=admin&action=movies" class="btn btn-primary">Gérer les films</a>
+</div>
 
 <?php if ($message !== null && isset($messages[$message])) { ?>
     <div class="alert alert-success" role="alert">
