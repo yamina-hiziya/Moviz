@@ -9,6 +9,7 @@ use App\Repository\DirectorRepository;
 use App\Repository\GenreRepository;
 use App\Repository\MovieRepository;
 use App\Repository\ReviewRepository;
+use App\Repository\MovieViewRepository;
 use App\Tools\FileTools;
 use App\Tools\Security;
 
@@ -107,14 +108,25 @@ class AdminController extends Controller
     // ---------------------------------------------------------------
 
     /*
-        Liste de tous les films
-    */
+    Liste de tous les films
+*/
     protected function movies()
     {
         $movieRepository = new MovieRepository();
+        $movies = $movieRepository->findAll();
+
+        // Nombre de vues de chaque film (MongoDB), en une seule requête
+        // null si MongoDB est indisponible : la colonne affichera alors un tiret
+        try {
+            $movieViewRepository = new MovieViewRepository();
+            $views = $movieViewRepository->getViewsForMovies(array_map(fn($movie) => $movie->getId(), $movies));
+        } catch (\Exception $e) {
+            $views = null;
+        }
 
         $this->render('admin/movies', [
-            'movies' => $movieRepository->findAll(),
+            'movies' => $movies,
+            'views' => $views,
             // Message de confirmation après une action (saved ou deleted)
             'message' => $_GET['message'] ?? null,
         ]);
@@ -226,8 +238,8 @@ class AdminController extends Controller
     }
 
     /*
-        Supprime un film, ses liens, ses critiques et son affiche
-    */
+    Supprime un film, ses liens, ses critiques, son affiche et ses statistiques de vues
+*/
     protected function deleteMovie()
     {
         $id = $this->getIdFromPost();
@@ -252,6 +264,14 @@ class AdminController extends Controller
         // L'affiche n'est supprimée qu'une fois le film bien supprimé en base
         if ($movie->getImageName()) {
             FileTools::deleteImage(MOVIES_IMAGES_FOLDER, $movie->getImageName());
+        }
+
+        // Statistiques de vues du film (MongoDB) : non critiques, une erreur ne bloque pas la suppression
+        try {
+            $movieViewRepository = new MovieViewRepository();
+            $movieViewRepository->deleteByMovieId($id);
+        } catch (\Exception $e) {
+            // MongoDB indisponible : les statistiques orphelines sont ignorées à l'affichage
         }
 
         header('location: index.php?controller=admin&action=movies&message=deleted');
