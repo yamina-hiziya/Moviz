@@ -1,6 +1,7 @@
 <?php require_once _TEMPLATEPATH_ . '/header.php';
 /**
  * @var App\Entity\Movie[] $movies
+ * @var array|null $views [movie_id => vues], null si MongoDB est indisponible
  * @var string|null $message
  */
 
@@ -34,6 +35,7 @@ $messages = [
                 <th scope="col">Affiche</th>
                 <th scope="col">Titre</th>
                 <th scope="col">Sortie</th>
+                <th scope="col">Vues</th>
                 <th scope="col" class="text-end">Actions</th>
             </tr>
         </thead>
@@ -48,6 +50,9 @@ $messages = [
                     </td>
                     <td>
                         <?= $movie->getReleaseDate() ? $movie->getReleaseDate()->format('d/m/Y') : 'N/C' ?>
+                    </td>
+                    <td>
+                        <?= $views === null ? '—' : ($views[$movie->getId()] ?? 0) ?>
                     </td>
                     <td class="text-end">
                         <div class="d-inline-flex gap-2">
