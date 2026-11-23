@@ -6,6 +6,25 @@ use App\Entity\Genre;
 
 class GenreRepository extends Repository
 {
+    /*
+        Tous les genres, triés par nom (pour les cases à cocher du formulaire admin)
+    */
+    public function findAll(): array
+    {
+        $query = $this->pdo->prepare("SELECT * FROM genre ORDER BY name ASC");
+        $query->execute();
+        $genres = $query->fetchAll($this->pdo::FETCH_ASSOC);
+
+        $genresArray = [];
+
+        if ($genres) {
+            foreach ($genres as $genre) {
+                $genresArray[] = Genre::createAndHydrate($genre);
+            }
+        }
+        return $genresArray;
+    }
+
     public function findAllByMovieId(int $movie_id): array
     {
         $query = $this->pdo->prepare("SELECT g.* FROM genre g
@@ -56,6 +75,17 @@ class GenreRepository extends Repository
         $query = $this->pdo->prepare("INSERT INTO movie_genre (movie_id, genre_id) VALUES (:movie_id, :genre_id)");
         $query->bindValue(':movie_id', $movie_id, $this->pdo::PARAM_INT);
         $query->bindValue(':genre_id', $genre_id, $this->pdo::PARAM_INT);
+
+        return $query->execute();
+    }
+
+    /*
+        Retire tous les genres d'un film (avant de remettre ceux cochés dans le formulaire)
+    */
+    public function unlinkAllFromMovie(int $movie_id): bool
+    {
+        $query = $this->pdo->prepare("DELETE FROM movie_genre WHERE movie_id = :movie_id");
+        $query->bindValue(':movie_id', $movie_id, $this->pdo::PARAM_INT);
 
         return $query->execute();
     }
