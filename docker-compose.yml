@@ -33,6 +33,8 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-moviz_root_dev}
     volumes:
       - mysql_data:/var/lib/mysql
+      # Script SQL importé automatiquement au premier démarrage (base vide)
+      - ./database:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p\"$${MYSQL_ROOT_PASSWORD}\" --silent"]
       interval: 5s
