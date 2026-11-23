@@ -1,6 +1,8 @@
-# Fichiers de configuration contenant des secrets (mots de passe, clé API)
-db_config.php
+# Fichier de configuration contenant un secret (clé API TMDB)
 tmdb_config.php
+
+# Fichier de variables d'environnement (mots de passe de production)
+.env
 
 # Affiches téléchargées depuis TMDB et affiches envoyées depuis l'espace admin
 uploads/movies/tmdb-*
