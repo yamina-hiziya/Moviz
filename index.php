@@ -1,12 +1,17 @@
 <?php
 require_once __DIR__ . '/config.php';
 
-// Sécurise le cookie de session avec httponly
+// Sécurise le cookie de session
 session_set_cookie_params([
     'lifetime' => 3600,
     'path' => '/',
     'domain' => $_SERVER['SERVER_NAME'],
-    'httponly' => true
+    // Le cookie n'est pas lisible en JavaScript (protège contre le vol de session par XSS)
+    'httponly' => true,
+    // Le cookie n'est envoyé qu'en HTTPS quand le site est en HTTPS
+    'secure' => !empty($_SERVER['HTTPS']),
+    // Le cookie n'est pas envoyé quand un autre site soumet un formulaire vers le nôtre (protège contre le CSRF)
+    'samesite' => 'Lax'
 ]);
 session_start();
 define('_ROOTPATH_', __DIR__);
@@ -19,9 +24,6 @@ spl_autoload_register(function (string $class) {
 });
 
 use App\Controller\Controller;
-// Nous avons besoin de cette classe pour verifier si l'utilisateur est connecté
-use App\Entity\User;
-
 
 $controller = new Controller();
 $controller->route();
