@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\UserRepository;
 use App\Entity\User;
+use App\Tools\Security;
 
 
 class UserController extends Controller
@@ -40,23 +41,29 @@ class UserController extends Controller
             $user = new User();
 
             if (isset($_POST['saveUser'])) {
-                // gérer l'inscription utilisateur
-                $user->hydrate($_POST);
-                $user->setRole(ROLE_USER);
-                $errors = $user->validate();
 
-                $userRepository = new UserRepository();
+                // Vérifie que le formulaire vient bien de notre site
+                if (!Security::checkCsrfToken($_POST['csrf_token'] ?? null)) {
+                    $errors['csrf'] = 'Le formulaire a expiré, merci de réessayer';
+                } else {
+                    // gérer l'inscription utilisateur
+                    $user->hydrate($_POST);
+                    $user->setRole(ROLE_USER);
+                    $errors = $user->validate();
 
-                // Vérifie que l'email n'est pas déjà utilisé par un autre compte
-                if (!isset($errors['email']) && $userRepository->findOneByEmail($user->getEmail())) {
-                    $errors['email'] = 'Un compte existe déjà avec cet email';
-                }
+                    $userRepository = new UserRepository();
 
-                if (empty($errors)) {
-                    //save en bdd
-                    $userRepository->persist($user);
-                    header('location: index.php?controller=auth&action=login');
-                    exit;
+                    // Vérifie que l'email n'est pas déjà utilisé par un autre compte
+                    if (!isset($errors['email']) && $userRepository->findOneByEmail($user->getEmail())) {
+                        $errors['email'] = 'Un compte existe déjà avec cet email';
+                    }
+
+                    if (empty($errors)) {
+                        //save en bdd
+                        $userRepository->persist($user);
+                        header('location: index.php?controller=auth&action=login');
+                        exit;
+                    }
                 }
             }
 
