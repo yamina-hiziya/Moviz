@@ -1,5 +1,17 @@
+# Pas de liste des fichiers quand un dossier n'a pas d'index
+Options -Indexes
 
 RewriteEngine On
 
-RewriteRule ^a-propos/$ index.php?controller=page&action=about
+# Dossiers internes du projet : jamais accessibles depuis le navigateur
+# (le code PHP les charge directement sur le disque, il n'est pas concerné)
+RewriteRule ^(App|bin|database|templates|libs|\.git)(/|$) - [F,L]
+
+# Fichiers sensibles à la racine : fichiers cachés (.git, .env, .htaccess...),
+# configuration, documentation, Docker et scripts SQL
+<FilesMatch "^(\..*|README\.md|Dockerfile|docker-compose\.yml|config\.php|db_config\.php|tmdb_config.*\.php|.*\.sql)$">
+    Require all denied
+</FilesMatch>
+
+# URL lisible pour les fiches films : /film/12 -> index.php?controller=movie&action=show&id=12
 RewriteRule ^film/([0-9]+)/?$ index.php?controller=movie&action=show&id=$1 [L]

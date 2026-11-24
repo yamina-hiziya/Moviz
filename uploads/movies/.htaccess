@@ -1,0 +1,6 @@
+# Ce dossier ne contient que des images : aucun script ne doit y être exécuté
+<FilesMatch "\.(php|phtml|phar|php[0-9])$">
+    Require all denied
+</FilesMatch>
+
+Options -Indexes
