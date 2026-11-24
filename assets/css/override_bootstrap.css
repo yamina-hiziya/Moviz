@@ -42,8 +42,8 @@ h1, h2, h3, .display-5 {
     --bs-btn-bg: var(--mooviz-navy);
     --bs-btn-border-color: var(--mooviz-navy);
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: var(--mooviz-gold);
-    --bs-btn-hover-border-color: var(--mooviz-gold);
+    --bs-btn-hover-bg: var(--mooviz-gold-dark);
+    --bs-btn-hover-border-color: var(--mooviz-gold-dark);
     --bs-btn-focus-shadow-rgb: 176, 134, 56;
     --bs-btn-active-color: #fff;
     --bs-btn-active-bg: var(--mooviz-gold-dark);
@@ -73,7 +73,7 @@ h1, h2, h3, .display-5 {
     --bs-nav-link-color: var(--mooviz-navy);
     --bs-nav-link-hover-color: var(--mooviz-gold);
     --bs-nav-pills-link-active-color: #fff;
-    --bs-nav-pills-link-active-bg: var(--mooviz-gold);
+    --bs-nav-pills-link-active-bg: var(--mooviz-gold-dark);
 }
 
 /* ---------- Affiches dans la liste des films ---------- */
