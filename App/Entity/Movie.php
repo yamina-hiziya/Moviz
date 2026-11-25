@@ -88,9 +88,9 @@ class Movie extends Entity
     public function getImagePath(): string
     {
         if ($this->getImageName()) {
-            return MOVIES_IMAGES_FOLDER . $this->getImageName();
+            return BASE_URL . MOVIES_IMAGES_FOLDER . $this->getImageName();
         } else {
-            return ASSETS_IMAGES_FOLDER . 'default-movie.png';
+            return BASE_URL . ASSETS_IMAGES_FOLDER . 'default-movie.png';
         }
     }
 

@@ -16,7 +16,7 @@ require_once _ROOTPATH_ . '/templates/header.php';
                 <img src="<?= htmlspecialchars($movie->getImagePath()) ?>" class="card-img-top" alt="<?= htmlspecialchars($movie->getTitle()) ?>">
                 <div class="card-body">
                     <h5 class="card-title"><?= htmlspecialchars($movie->getTitle()) ?></h5>
-                    <a href="/index.php?controller=movie&action=show&id=<?= $movie->getId() ?>" class="btn btn-primary">Voir la fiche</a>
+                    <a href="<?= BASE_URL ?>/index.php?controller=movie&action=show&id=<?= $movie->getId() ?>" class="btn btn-primary">Voir la fiche</a>
                 </div>
             </div>
         </div>

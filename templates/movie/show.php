@@ -93,7 +93,7 @@
     <?php if (!\App\Entity\User::isLogged()) { ?>
 
         <p>
-            <a href="/index.php?controller=auth&action=login">Connectez-vous</a> pour noter ce film et donner votre avis.
+            <a href="<?= BASE_URL ?>/index.php?controller=auth&action=login">Connectez-vous</a> pour noter ce film et donner votre avis.
         </p>
 
     <?php } else if ($userReview) { ?>

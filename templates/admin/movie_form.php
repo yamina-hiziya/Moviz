@@ -111,7 +111,7 @@
 
     <div class="d-flex gap-2">
         <button type="submit" class="btn btn-primary">Enregistrer</button>
-        <a href="/index.php?controller=admin&action=movies" class="btn btn-outline-primary">Annuler</a>
+        <a href="<?= BASE_URL ?>/index.php?controller=admin&action=movies" class="btn btn-outline-primary">Annuler</a>
     </div>
 </form>
 

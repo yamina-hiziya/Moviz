@@ -13,7 +13,7 @@ $messages = [
 
 <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
     <h1 class="mb-0">Administration</h1>
-    <a href="/index.php?controller=admin&action=movies" class="btn btn-primary">Gérer les films</a>
+    <a href="<?= BASE_URL ?>/index.php?controller=admin&action=movies" class="btn btn-primary">Gérer les films</a>
 </div>
 
 <?php if ($message !== null && isset($messages[$message])) { ?>
@@ -36,7 +36,7 @@ $messages = [
                 <div class="card-body">
                     <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-2">
                         <div>
-                            <a href="/index.php?controller=movie&action=show&id=<?= $review->getMovieId() ?>" class="fw-semibold">
+                            <a href="<?= BASE_URL ?>/index.php?controller=movie&action=show&id=<?= $review->getMovieId() ?>" class="fw-semibold">
                                 <?= htmlspecialchars($review->getMovieTitle()) ?>
                             </a>
                             <span class="text-muted">— par <?= htmlspecialchars($review->getUserFirstName()) ?></span>
@@ -51,13 +51,13 @@ $messages = [
                     <p class="card-text"><?= nl2br(htmlspecialchars($review->getReview())) ?></p>
 
                     <div class="d-flex gap-2">
-                        <form method="POST" action="/index.php?controller=admin&action=approveReview">
+                        <form method="POST" action="<?= BASE_URL ?>/index.php?controller=admin&action=approveReview">
                             <input type="hidden" name="csrf_token" value="<?= \App\Tools\Security::getCsrfToken() ?>">
                             <input type="hidden" name="id" value="<?= $review->getId() ?>">
                             <button type="submit" class="btn btn-primary btn-sm">Valider</button>
                         </form>
 
-                        <form method="POST" action="/index.php?controller=admin&action=deleteReview" onsubmit="return confirm('Supprimer définitivement cette critique et sa note ?');">
+                        <form method="POST" action="<?= BASE_URL ?>/index.php?controller=admin&action=deleteReview" onsubmit="return confirm('Supprimer définitivement cette critique et sa note ?');">
                             <input type="hidden" name="csrf_token" value="<?= \App\Tools\Security::getCsrfToken() ?>">
                             <input type="hidden" name="id" value="<?= $review->getId() ?>">
                             <button type="submit" class="btn btn-outline-danger btn-sm">Supprimer</button>

@@ -15,8 +15,8 @@ $messages = [
 <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
     <h1 class="mb-0">Gestion des films</h1>
     <div class="d-flex flex-wrap gap-2">
-        <a href="/index.php?controller=admin&action=dashboard" class="btn btn-outline-primary">← Administration</a>
-        <a href="/index.php?controller=admin&action=movieForm" class="btn btn-primary">+ Ajouter un film</a>
+        <a href="<?= BASE_URL ?>/index.php?controller=admin&action=dashboard" class="btn btn-outline-primary">← Administration</a>
+        <a href="<?= BASE_URL ?>/index.php?controller=admin&action=movieForm" class="btn btn-primary">+ Ajouter un film</a>
     </div>
 </div>
 
@@ -46,7 +46,7 @@ $messages = [
                         <img src="<?= htmlspecialchars($movie->getImagePath()) ?>" alt="" width="50" class="rounded">
                     </td>
                     <td>
-                        <a href="/index.php?controller=movie&action=show&id=<?= $movie->getId() ?>"><?= htmlspecialchars($movie->getTitle()) ?></a>
+                        <a href="<?= BASE_URL ?>/index.php?controller=movie&action=show&id=<?= $movie->getId() ?>"><?= htmlspecialchars($movie->getTitle()) ?></a>
                     </td>
                     <td>
                         <?= $movie->getReleaseDate() ? $movie->getReleaseDate()->format('d/m/Y') : 'N/C' ?>
@@ -56,9 +56,9 @@ $messages = [
                     </td>
                     <td class="text-end">
                         <div class="d-inline-flex gap-2">
-                            <a href="/index.php?controller=admin&action=movieForm&id=<?= $movie->getId() ?>" class="btn btn-outline-primary btn-sm">Modifier</a>
+                            <a href="<?= BASE_URL ?>/index.php?controller=admin&action=movieForm&id=<?= $movie->getId() ?>" class="btn btn-outline-primary btn-sm">Modifier</a>
 
-                            <form method="POST" action="/index.php?controller=admin&action=deleteMovie" onsubmit="return confirm(<?= htmlspecialchars(json_encode('Supprimer définitivement « ' . $movie->getTitle() . ' » et toutes ses critiques ?', JSON_UNESCAPED_UNICODE)) ?>);">
+                            <form method="POST" action="<?= BASE_URL ?>/index.php?controller=admin&action=deleteMovie" onsubmit="return confirm(<?= htmlspecialchars(json_encode('Supprimer définitivement « ' . $movie->getTitle() . ' » et toutes ses critiques ?', JSON_UNESCAPED_UNICODE)) ?>);">
                                 <input type="hidden" name="csrf_token" value="<?= \App\Tools\Security::getCsrfToken() ?>">
                                 <input type="hidden" name="id" value="<?= $movie->getId() ?>">
                                 <button type="submit" class="btn btn-outline-danger btn-sm">Supprimer</button>

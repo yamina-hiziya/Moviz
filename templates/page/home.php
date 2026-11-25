@@ -15,9 +15,9 @@
                 et partagez votre propre note <span class="text-warning">★</span>
             </p>
             <div class="d-flex flex-wrap gap-2">
-                <a href="/index.php?controller=movie&action=list" class="btn btn-light btn-lg px-4">Voir les films</a>
+                <a href="<?= BASE_URL ?>/index.php?controller=movie&action=list" class="btn btn-light btn-lg px-4">Voir les films</a>
                 <?php if (!\App\Entity\User::isLogged()) { ?>
-                    <a href="/index.php?controller=user&action=register" class="btn btn-outline-light btn-lg px-4">Créer un compte</a>
+                    <a href="<?= BASE_URL ?>/index.php?controller=user&action=register" class="btn btn-outline-light btn-lg px-4">Créer un compte</a>
                 <?php } ?>
             </div>
         </div>
@@ -32,7 +32,7 @@
         <div class="row g-3">
             <?php foreach ($mostViewedMovies as $item) { ?>
                 <div class="col-6 col-md-4 col-lg-2">
-                    <a href="/index.php?controller=movie&action=show&id=<?= $item['movie']->getId() ?>" class="text-decoration-none">
+                    <a href="<?= BASE_URL ?>/index.php?controller=movie&action=show&id=<?= $item['movie']->getId() ?>" class="text-decoration-none">
                         <div class="card h-100">
                             <img src="<?= htmlspecialchars($item['movie']->getImagePath()) ?>" class="card-img-top" alt="<?= htmlspecialchars($item['movie']->getTitle()) ?>" loading="lazy">
                             <div class="card-body p-2">
@@ -51,7 +51,7 @@
 <section class="mb-5">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2 class="h3 mb-0">Les derniers films ajoutés</h2>
-        <a href="/index.php?controller=movie&action=list">Tous les films →</a>
+        <a href="<?= BASE_URL ?>/index.php?controller=movie&action=list">Tous les films →</a>
     </div>
 
     <?php if (empty($latestMovies)) { ?>
@@ -60,7 +60,7 @@
         <div class="row g-3">
             <?php foreach ($latestMovies as $movie) { ?>
                 <div class="col-6 col-md-4 col-lg-2">
-                    <a href="/index.php?controller=movie&action=show&id=<?= $movie->getId() ?>" class="text-decoration-none">
+                    <a href="<?= BASE_URL ?>/index.php?controller=movie&action=show&id=<?= $movie->getId() ?>" class="text-decoration-none">
                         <div class="card h-100">
                             <img src="<?= htmlspecialchars($movie->getImagePath()) ?>" class="card-img-top" alt="<?= htmlspecialchars($movie->getTitle()) ?>" loading="lazy">
                             <div class="card-body p-2">

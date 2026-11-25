@@ -1,10 +1,14 @@
 <?php
 require_once __DIR__ . '/config.php';
 
+// Nom de cookie propre à Mooviz : un autre site du même domaine ne partage pas la session
+session_name('MOOVIZSESSID');
+
 // Sécurise le cookie de session
 session_set_cookie_params([
     'lifetime' => 3600,
-    'path' => '/',
+    // Le cookie n'est envoyé que pour les adresses de Mooviz ("/" en local, "/mooviz/" en ligne)
+    'path' => BASE_URL . '/',
     'domain' => $_SERVER['SERVER_NAME'],
     // Le cookie n'est pas lisible en JavaScript (protège contre le vol de session par XSS)
     'httponly' => true,
