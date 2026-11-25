@@ -158,7 +158,7 @@ DROP TABLE IF EXISTS `review`;
 CREATE TABLE `review` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `rate` tinyint NOT NULL,
-  `review` text NOT NULL,
+  `review` text,
   `approved` tinyint NOT NULL,
   `user_id` int unsigned NOT NULL,
   `movie_id` int unsigned NOT NULL,
@@ -218,4 +218,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-11-21  8:53:02
+-- Dump completed on 2026-11-25 10:32:46
