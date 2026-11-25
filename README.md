@@ -1,5 +1,7 @@
 # 🎬 Mooviz
 
+**Site en ligne :** https://yamina.alwaysdata.net/mooviz/
+
 Site de notation et de critique de films, développé en **PHP orienté objet** avec une architecture **MVC**, une base **MySQL** pour les données métier et une base **MongoDB** pour les statistiques de consultation.
 
 Projet réalisé dans le cadre du titre professionnel **Développeur Web et Web Mobile (DWWM)**, pour le bloc de compétences **CCP 2 — Développer la partie back-end d'une application web ou web mobile sécurisée**. Il part du projet pédagogique « Moviz » du cours PHP POO de Studi, entièrement corrigé, sécurisé et enrichi (voir [Améliorations apportées](#-améliorations-apportées-au-projet-de-départ)).
@@ -191,10 +193,12 @@ docker exec moviz-mongo-1 mongosh -u mooviz -p mooviz_dev --quiet --eval "db.get
 
 ### Comptes de démonstration
 
-| Rôle           | Email            | Mot de passe |
-| -------------- | ---------------- | ------------ |
-| Administrateur | `test@moviz.fr`  | `Test1234`   |
-| Membre         | `test2@moviz.fr` | `Test1234`   |
+| Rôle                                 | Email            | Mot de passe |
+| ------------------------------------ | ---------------- | ------------ |
+| Membre                               | `test2@moviz.fr` | `Test1234`   |
+| Administrateur (en local uniquement) | `test@moviz.fr`  | `Test1234`   |
+
+Sur le site en ligne, le mot de passe administrateur est différent : il est communiqué dans le dossier de projet.
 
 ### Variables d'environnement
 
