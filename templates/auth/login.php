@@ -1,11 +1,8 @@
 <?php require_once _TEMPLATEPATH_ . '/header.php';
-
 /**
  * @var string[] $errors
  */
-
 ?>
-
 
 <h1>Connexion</h1>
 
@@ -29,5 +26,10 @@
 
     <input type="submit" name="loginUser" class="btn btn-primary" value="Se connecter">
 </form>
+
+<p class="mt-4">
+    Pas encore de compte ?
+    <a href="<?= BASE_URL ?>/index.php?controller=user&action=register">Inscrivez-vous</a>
+</p>
 
 <?php require_once _TEMPLATEPATH_ . '/footer.php'; ?>
