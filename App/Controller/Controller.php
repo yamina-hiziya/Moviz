@@ -40,7 +40,7 @@ class Controller
             }
         } catch (\Exception $e) {
             $this->render('errors/default', [
-                'error' => $e->getMessage()
+                'error' => $this->errorMessage($e)
             ]);
         }
     }
@@ -59,8 +59,22 @@ class Controller
             }
         } catch (\Exception $e) {
             $this->render('errors/default', [
-                'error' => $e->getMessage()
+                'error' => $this->errorMessage($e)
             ]);
         }
+    }
+
+    /*
+        Message d'erreur à afficher à l'utilisateur
+        Les erreurs de base de données ne sont jamais affichées : elles révèlent la structure des tables.
+        Leur détail est enregistré dans les logs du serveur pour pouvoir corriger le problème.
+    */
+    protected function errorMessage(\Exception $e): string
+    {
+        if ($e instanceof \PDOException) {
+            error_log('[Mooviz] ' . $e->getMessage());
+            return "Une erreur technique est survenue. Merci de réessayer plus tard.";
+        }
+        return $e->getMessage();
     }
 }

@@ -52,7 +52,7 @@ class AdminController extends Controller
             }
         } catch (\Exception $e) {
             $this->render('errors/default', [
-                'error' => $e->getMessage()
+                'error' => $this->errorMessage($e)
             ]);
         }
     }

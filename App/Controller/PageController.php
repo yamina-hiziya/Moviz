@@ -24,7 +24,7 @@ class PageController extends Controller
             }
         } catch (\Exception $e) {
             $this->render('errors/default', [
-                'error' => $e->getMessage()
+                'error' => $this->errorMessage($e)
             ]);
         }
     }
@@ -60,7 +60,7 @@ class PageController extends Controller
             ]);
         } catch (\Exception $e) {
             $this->render('errors/default', [
-                'error' => $e->getMessage()
+                'error' => $this->errorMessage($e)
             ]);
         }
     }
