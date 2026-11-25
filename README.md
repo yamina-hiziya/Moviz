@@ -87,7 +87,7 @@ assets/                    CSS et images du site
 uploads/movies/            Affiches des films
 bin/import_tmdb.php        Script d'import des films depuis l'API TMDB (ligne de commande)
 database/mooviz.sql        Script SQL : structure et données de démonstration
-libs/                      MCD, MLD et sujet du projet
+docs/diagrammes/           MCD, MLD, diagramme de classes et diagramme de séquence
 ```
 
 **Exemple de parcours d'une requête :** `index.php?controller=movie&action=show&id=12`
@@ -100,11 +100,38 @@ libs/                      MCD, MLD et sujet du projet
 
 ---
 
+## 📐 Diagrammes
+
+| Diagramme             | Ce qu'il montre                                                              |
+| --------------------- | ---------------------------------------------------------------------------- |
+| MCD                   | Les entités (film, genre, réalisateur, utilisateur, avis) et leurs relations |
+| MLD                   | Les tables MySQL, leurs clés primaires et étrangères                         |
+| Diagramme de classes  | L'architecture MVC : contrôleurs, entités, repositories et outils            |
+| Diagramme de séquence | Le dépôt d'un avis, du formulaire jusqu'à MySQL                              |
+
+### MCD
+
+![MCD](docs/diagrammes/mcd.png)
+
+### MLD
+
+![MLD](docs/diagrammes/mld.png)
+
+### Diagramme de classes
+
+![Diagramme de classes](docs/diagrammes/classes.png)
+
+### Diagramme de séquence
+
+![Diagramme de séquence](docs/diagrammes/sequence.png)
+
+---
+
 ## 🗄 Bases de données
 
 ### MySQL : les données métier
 
-Les films, les utilisateurs et les critiques ont besoin de **relations** et de **contraintes d'intégrité** : ils sont stockés dans MySQL. Le MCD et le MLD sont dans le dossier `libs/`.
+Les films, les utilisateurs et les critiques ont besoin de **relations** et de **contraintes d'intégrité** : ils sont stockés dans MySQL. Le MCD et le MLD sont dans le dossier `docs/diagrammes/`.
 
 | Table                         | Contenu                                                                    |
 | ----------------------------- | -------------------------------------------------------------------------- |

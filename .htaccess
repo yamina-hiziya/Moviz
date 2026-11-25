@@ -5,8 +5,7 @@ RewriteEngine On
 
 # Dossiers internes du projet : jamais accessibles depuis le navigateur
 # (le code PHP les charge directement sur le disque, il n'est pas concerné)
-RewriteRule ^(App|bin|database|templates|libs|\.git)(/|$) - [F,L]
-
+RewriteRule ^(App|bin|database|templates|docs|\.git)(/|$) - [F,L]
 # Fichiers sensibles à la racine : fichiers cachés (.git, .env, .htaccess...),
 # configuration, documentation, Docker et scripts SQL
 <FilesMatch "^(\..*|README\.md|Dockerfile|docker-compose\.yml|config\.php|db_config\.php|tmdb_config.*\.php|.*\.sql)$">
